@@ -1,0 +1,92 @@
+format = """
+$username\
+$directory\
+$git_branch\
+$git_status\
+$c\
+$cpp\
+$rust\
+$golang\
+$python\
+$battery\
+$character
+"""
+# $cmd_duration\
+# command_timeout = 5000
+add_newline = true
+
+[line_break]
+disabled = true
+
+[fill]
+symbol = " "
+
+#  
+[username]
+show_always = true
+# style_user = "bg:#3B4252"
+# style_root = "bg:#3B4252"
+format = '[ $user |]()'
+
+[directory]
+# style = "bg:#434C5E"
+format = "[ $path |]()"
+truncate_to_repo = true
+truncation_length = 3
+truncation_symbol = "…/"
+
+[character]
+success_symbol = '[ ❯](bold green) '
+error_symbol = '[ ✗](bold red) '
+
+[python]
+# style = "bg:#3B4252"
+symbol = " "
+format = ' $symbol [(\($virtualenv\) )]()'
+pyenv_version_name = true
+
+[rust]
+symbol = "󱘗 "
+
+[c]
+symbol = " "
+
+# [cpp]
+# symbol = " "
+
+[aws]
+disabled = true
+
+[battery]
+disabled= false
+empty_symbol = "🪫"
+full_symbol = '🔋'
+charging_symbol = '⚡️ '
+discharging_symbol = '💀 '
+format = "[ $percentage ]() "
+
+[[battery.display]]
+threshold = 20
+
+[git_branch]
+symbol = ''
+# style = "bg:#4C566A"
+format = '[ $symbol $branch ]()'
+
+[git_status]
+# style = "bg:#4C566A"
+format = '[ $all_status$ahead_behind |]()'
+
+[git_metrics]
+disabled = true
+
+[git_commit]
+tag_symbol = '  '
+
+[golang]
+symbol = " "
+
+[cmd_duration]
+min_time = 3_000
+format = "[ $duration ]()"
+style = "white"
