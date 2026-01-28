@@ -1,36 +1,63 @@
 #!/usr/bin/env bash
-
 sudo -i
 
-echo "Installing zoxide, curl, vim-gtk3, git, fzf, mplayer, gnome-shell-extension-manager"
-sudo apt install \
-    zoxide \
-    curl \
-    vim-gtk3 \
-    git \
-    fzf \
-    mplayer mplayer-gui \
-    gnome-shell-extension-manager \
-    python3-venv \
-    python3-pytest \
+apt_packages=(
+    "zoxide"
+    "curl"
+    "vim-gtk3"
+    "git"
+    "mplayer"
+    "mplayer-gui"
+    "gnome-shell-extension-manager"
+    "python3-venv"
+    "python3-pytest"
+    "pulseaudio"
+    "pavucontrol"
+    "solaar"
+)
+
+apt_packages_str="${apt_packages[*]}"
+echo "Installing with apt: ""$apt_packages_str"
+sudo apt install "$apt_packages_str"
 
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+snap_packages=(
+    "docker"
+    "snapcraft"
+    "pyright"
+    "node"
+    "rustup"
+    "lxd"
+    "firefox"
+    "htop"
+)
+
+if [[ "$*" =~ ^--personal$ ]]; then
+    snap_packages+=(
+        "whatsie"
+        "steam"
+        "obs-studio"
+    )
+fi
+
+snap_packages_str="${snap_packages[*]}"
 # install go, docker
-echo "Installing go, docker, snapcraft, astral-uv, pyright, node, rustup"
-sudo snap install \
-    go \
-    docker \
-    snapcraft \
-    astral-uv \
-    pyright \
-    node \
-    rustup \
+echo "Installing with snap: ""$snap_packages_str"
+sudo snap install "$snap_packages_str"
 
 # install vs-code
-echo "Installing vs-code"
-sudo snap install code --classic
+snap_classic_packages=(
+    "code"
+    "astral-uv"
+    "go"
+    "pyright"
+)
+echo "Installing with snap --classic: ""${snap_classic_packages[*]}"
+for app in "${snap_classic_packages[@]}"; do
+    sudo snap install "$app" --classic
+done
 
 # install starship
 # get nerd font https://dev.to/pulkitsingh/install-nerd-fonts-or-any-fonts-easily-in-linux-2e3l
@@ -44,6 +71,9 @@ download_font() {
     rm -rf "$TEMP_DIR"
 }
 download_font
+#
+# Installing fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
 echo "Installing starship"
 curl -sS https://starship.rs/install.sh | sh
@@ -55,5 +85,3 @@ curl -sS https://starship.rs/install.sh | sh
     ln -sf ~/moiConfig/.bash_aliases .bash_aliases;
 )
 
-# Installing fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
