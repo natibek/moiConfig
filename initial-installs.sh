@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-sudo -i
 
 apt_packages=(
     "zoxide"
@@ -13,12 +12,13 @@ apt_packages=(
     "python3-pytest"
     "pulseaudio"
     "pavucontrol"
+    "terminator"
     "solaar"
+    "bat"
 )
 
-apt_packages_str="${apt_packages[*]}"
-echo "Installing with apt: ""$apt_packages_str"
-sudo apt install "$apt_packages_str"
+echo -e "\n\nInstalling with apt: ""${apt_packages[*]}"
+sudo apt install "${apt_packages[@]}"
 
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -28,7 +28,6 @@ snap_packages=(
     "snapcraft"
     "pyright"
     "node"
-    "rustup"
     "lxd"
     "firefox"
     "htop"
@@ -42,10 +41,9 @@ if [[ "$*" =~ ^--personal$ ]]; then
     )
 fi
 
-snap_packages_str="${snap_packages[*]}"
 # install go, docker
-echo "Installing with snap: ""$snap_packages_str"
-sudo snap install "$snap_packages_str"
+echo -e "\n\nInstalling with snap: ""${snap_packages[*]}"
+sudo snap install "${snap_packages[@]}"
 
 # install vs-code
 snap_classic_packages=(
@@ -53,18 +51,20 @@ snap_classic_packages=(
     "astral-uv"
     "go"
     "pyright"
+    "rustup"
 )
-echo "Installing with snap --classic: ""${snap_classic_packages[*]}"
+echo -e "\n\nInstalling with snap --classic: ""${snap_classic_packages[*]}"
 for app in "${snap_classic_packages[@]}"; do
     sudo snap install "$app" --classic
 done
+rustup default stable
 
 # install starship
 # get nerd font https://dev.to/pulkitsingh/install-nerd-fonts-or-any-fonts-easily-in-linux-2e3l
 download_font() {
-    echo "Downloading nerd font: Noto"
+    echo -e "\n\nDownloading nerd font: Noto"
     TEMP_DIR=$(mktemp -d)
-    wget -O "$TEMP_DIR/font.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v2.4.0/Noto.zip
+    wget -O "$TEMP_DIR/font.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Noto.zip
     unzip "$TEMP_DIR/font.zip" -d $TEMP_DIR
     sudo mv "$TEMP_DIR"/*.{ttf} /usr/local/share/fonts/
     fc-cache -f -v
@@ -75,13 +75,12 @@ download_font
 # Installing fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
-echo "Installing starship"
+echo -e "\n\nInstalling starship"
 curl -sS https://starship.rs/install.sh | sh
 
-(cd ~ && \
-    git clone https://github.com/natibek/moiConfig.git &&\
-    ln -sf ~/moiConfig/.vimrc .vimrc; \
-    ln -sf ~/moiConfig/.bashrc .bashrc; \
-    ln -sf ~/moiConfig/.bash_aliases .bash_aliases;
-)
+echo -e "\n\nCopying config files"
+ln -sf ~/moiConfig/.vimrc ~/.vimrc
+ln -sf ~/moiConfig/.bashrc ~/.bashrc
+ln -sf ~/moiConfig/.bash_aliases ~/.bash_aliases
+ln -sf ~/moiConfig/starship.toml ~/.config/starship.toml
 
