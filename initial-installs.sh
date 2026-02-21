@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
+install_apt () {
+    apt_packages=(
+        "zoxide"
+        "curl"
+        "vim-gtk3"
+        "git"
+        "mplayer"
+        "mplayer-gui"
+        "gnome-shell-extension-manager"
+        "python3-venv"
+        "python3-pytest"
+        "pulseaudio"
+        "pavucontrol"
+        "solaar"
+        "exuberant-ctags"
+        "ripgrep"
+    )
 
-apt_packages=(
-    "zoxide"
-    "curl"
-    "vim-gtk3"
-    "git"
-    "mplayer"
-    "mplayer-gui"
-    "gnome-shell-extension-manager"
-    "python3-venv"
-    "python3-pytest"
-    "pulseaudio"
-    "pavucontrol"
-    "terminator"
-    "solaar"
-    "bat"
-)
-
-echo -e "\n\nInstalling with apt: ""${apt_packages[*]}"
-sudo apt install "${apt_packages[@]}"
-
+    apt_packages_str="${apt_packages[*]}"
+    echo "Installing with apt: ""$apt_packages_str"
+    sudo apt install "$apt_packages_str"
+}
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -41,11 +42,12 @@ if [[ "$*" =~ ^--personal$ ]]; then
     )
 fi
 
-# install go, docker
-echo -e "\n\nInstalling with snap: ""${snap_packages[*]}"
-sudo snap install "${snap_packages[@]}"
+snap_packages_str="${snap_packages[*]}"
+echo "Installing with snap: ""$snap_packages_str"
+for app in "${snap_packages[@]}"; do
+    sudo snap install "$app"
+done
 
-# install vs-code
 snap_classic_packages=(
     "code"
     "astral-uv"

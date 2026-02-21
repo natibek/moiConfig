@@ -1,3 +1,4 @@
+" https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,6 +71,8 @@ endfunction
 " endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let mapleader = ","
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -78,9 +81,17 @@ call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " CocInstall coc-pyright coc-rust-analyzer
 Plug 'Yggdroot/indentLine'
 Plug 'Konfekt/FastFold'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'fatih/vim-go'
+" https://github.com/lambdalisue/vim-fern/wiki/Mappings
+Plug 'lambdalisue/vim-fern'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
+" Coc config
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
@@ -89,10 +100,38 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm(): "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <silent><expr> <c-@> coc#refresh()
 
+" install coc-go
+
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Fern Config
+autocmd FileType fern nnoremap <buffer> D <Plug>(fern-action-remove)<CR>
+noremap <silent> <Leader>d :Fern . -drawer -width=35 -toggle<CR><C-w>=
+noremap <silent> <Leader>f :Fern . -drawer -reveal=% -width=35<CR><C-w>=
+noremap <silent> <Leader>. :Fern %:h -drawer -width=35<CR><C-w>=
+
+" Gitgutter config
+set updatetime=100
+let g:gitgutter_map_keys                = 0
+let g:gitgutter_sign_added              = '▎'
+let g:gitgutter_sign_modified           = '▎'
+let g:gitgutter_sign_modified_removed   = '▌'
+let g:gitgutter_sign_removed            = '▎'
+let g:gitgutter_sign_removed_first_line = '▎'
+nmap [g <Plug>(GitGutterPrevHunk)
+nmap ]g <Plug>(GitGutterNextHunk)
+nmap <Leader>p <Plug>(GitGutterPreviewHunk)
+" nmap <Leader>+ <Plug>(GitGutterStageHunk)
+" nmap <Leader>- <Plug>(GitGutterUndoHunk)
+
+" fzf config
+nnoremap <leader>rG :RG <C-R><C-W><CR>
+nnoremap <leader>rg :RG<CR>
+vnoremap <leader>rg y:RG <C-R>"<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set history=500
@@ -112,10 +151,6 @@ set shortmess+=c
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * silent! checktime
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -234,23 +269,23 @@ set nowb
 set noswapfile
 
 " Use spaces instead of tabs
+" 1 tab == 4 spaces
 set expandtab
 set smarttab
-
-" 1 tab == 4 spaces
+set autoindent
+set smartindent
 set shiftwidth=4
 set tabstop=4
+
+autocmd FileType go setlocal noexpandtab
 
 " Line break on 500 characters
 set lbr
 set tw=500
-
-set ai "Auto indent
-set si "Smart indent
 set wrap "Wrap lines
 
 " set foldmethod=indent
-set nofen fdm=indent foldcolumn=3
+set nofen fdm=manual foldcolumn=3
 
 " Key bindings
 map <leader>h :noh<cr>
@@ -270,6 +305,10 @@ noremap <leader>te :tabedit <C-r>=escape(expand("%:p:h"), " ")<cr>/
 " map <leader>tm :tabmove +1<cr>
 nmap <leader>n :cnext<cr>
 nmap <leader>p :cprevious<cr>
+
+" navigating tags
+nnoremap gd :tag <C-r><C-w><CR>
+nnoremap gb :pop<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -304,7 +343,7 @@ vnoremap <C-S-Up> :m '<-2<CR>gv=gv
 
 " Delete trailing white space on save, useful for some filetypes
 if has("autocmd")
-    autocmd BufWritePre *.c,*.cpp,*.h,*.hpp,*.md,*.txt,*.js,*.py,*.sh :call CleanExtraSpaces()
+    autocmd BufWritePre *.c,*.cpp,*.h,*.hpp,*.md,*.txt,*.js,*.py,*.sh,*.go :call CleanExtraSpaces()
 endif
 nmap <C-s> :call CleanExtraSpaces()<cr>:write<cr>
 
@@ -324,9 +363,10 @@ map <leader>x :e ~/buffer.md<cr>
 map <leader>pp :setlocal paste!<cr>
 
 " Highlighting trailing whitespaces
+set listchars=trail:•,tab:·\ ,extends:>,precedes:<,nbsp:%
 set list
-set listchars=trail:\ "
-highlight SpecialKey ctermfg=red ctermbg=red
+highlight specialkey ctermfg=blue ctermbg=none
+
 
 " Netrw config
 " Pattern to hide dot files/folders
@@ -343,7 +383,7 @@ endfunction
 autocmd FileType netrw call NetrwMapping()
 
 " Terminal config
-tnoremap <Esc> <C-W>N
+" tnoremap <Esc> <C-W>N
 
 function! TermConfig()
     setlocal notimeout ttimeout timeoutlen=100
