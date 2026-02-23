@@ -308,6 +308,7 @@ nmap <leader>p :cprevious<cr>
 
 " navigating tags
 nnoremap gd :tag <C-r><C-w><CR>
+nnoremap gn :tab tag <C-r><C-w><CR>
 nnoremap gb :pop<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
