@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-install_apt () {
+
+RED='\033[0;31m'
+IRED='\033[0;91m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+apt_installs () {
     apt_packages=(
         "zoxide"
         "curl"
@@ -17,11 +23,11 @@ install_apt () {
         "bat"
         "ripgrep"
         "terminator"
+        "ipython3"
     )
 
-    apt_packages_str="${apt_packages[*]}"
-    echo "Installing with apt: ""$apt_packages_str"
-    sudo apt install "$apt_packages_str"
+    echo -e "\n\n${GREEN}Installing with apt: ${apt_packages_str[*]}${NC}"
+    sudo apt install ${apt_packages[@]}
 }
 
 snap_installs () {
@@ -43,7 +49,7 @@ snap_installs () {
     fi
 
     # install go, docker
-    echo -e "\n\nInstalling with snap: ""${snap_packages[*]}"
+    echo -e "\n\n${GREEN}Installing with snap: ${snap_packages[*]}${NC}"
     sudo snap install "${snap_packages[@]}"
 
     # install vs-code
@@ -55,7 +61,7 @@ snap_installs () {
         "rustup"
         "node"
     )
-    echo -e "\n\nInstalling with snap --classic: ""${snap_classic_packages[*]}"
+    echo -e "\n\n${GREEN}Installing with snap --classic: ${snap_classic_packages[*]}${NC}"
     for app in "${snap_classic_packages[@]}"; do
         sudo snap install "$app" --classic
     done
@@ -66,7 +72,7 @@ snap_installs () {
 # install starship
 # get nerd font https://dev.to/pulkitsingh/install-nerd-fonts-or-any-fonts-easily-in-linux-2e3l
 download_font () {
-    echo -e "\n\nDownloading nerd font: Noto"
+    echo -e "\n\n${GREEN}Downloading nerd font: Noto${NC}"
     TEMP_DIR=$(mktemp -d)
     wget -O "$TEMP_DIR/font.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Noto.zip
     unzip "$TEMP_DIR/font.zip" -d $TEMP_DIR
@@ -75,19 +81,19 @@ download_font () {
     rm -rf "$TEMP_DIR"
 }
 
-config_other () {
+configs () {
     # install vim-plug
-    echo -e "\n\nInstalling vim plug"
+    echo -e "\n\n${GREEN}Installing vim plug${NC}"
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     # Installing fzf
-    echo -e "\n\nInstalling fzf"
+    echo -e "\n\n${GREEN}Installing fzf${NC}"
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
-    echo -e "\n\nInstalling starship"
+    echo -e "\n\n${GREEN}Installing starship${NC}"
     curl -sS https://starship.rs/install.sh | sh
 
-    echo -e "\n\nCopying config files"
+    echo -e "\n\n${GREEN}Copying config files${NC}"
     ln -sf ~/moiConfig/.vimrc ~/.vimrc
     ln -sf ~/moiConfig/.bashrc ~/.bashrc
     ln -sf ~/moiConfig/.bash_aliases ~/.bash_aliases
@@ -95,10 +101,18 @@ config_other () {
 }
 
 
-case $- in
-    *i*) ;;
-    *) return ;;
-esac
+if [ -z "$*" ]; then
+    echo "Install all"
+else
+    for arg in "$@"; do
+        case "$arg" in
+            -snap)   snap_installs ;;&
+            -apt)    apt_installs  ;;&
+            -font)   download_font ;;&
+            -config) configs       ;;&
+            *) echo -e "${RED}Unknown argument:${NC} $arg";;&
+        esac
+    done
 
-if [[ "$*" =~ ^--personal$ ]]; then
 fi
+
