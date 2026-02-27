@@ -110,7 +110,7 @@ else
             -apt)    apt_installs  ;;&
             -font)   download_font ;;&
             -config) configs       ;;&
-            *) echo -e "${RED}Unknown argument:${NC} $arg";;&
+            *) echo -e "${IRED}Unknown argument:${NC} $arg";;&
         esac
     done
 
