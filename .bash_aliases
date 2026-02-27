@@ -6,6 +6,8 @@ alias fsf='wmctrl -r :ACTIVE: -b toggle,fullscreen'
 alias cdir='cd "${_%/*}"'
 alias py="ipython --InteractiveShellApp.extensions 'autoreload' --InteractiveShellApp.exec_lines '%autoreload 2'"
 alias bat="batcat"
+alias la="ls -a"
+alias ll="ll -l"
 
 export gitpre='git@github.com:natibek'
 
