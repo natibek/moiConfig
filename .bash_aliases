@@ -5,6 +5,7 @@ alias fsa='wmctrl -r :ACTIVE: -b toggle,maximized_horz,maximized_vert'
 alias fsf='wmctrl -r :ACTIVE: -b toggle,fullscreen'
 alias cdir='cd "${_%/*}"'
 alias py="ipython --InteractiveShellApp.extensions 'autoreload' --InteractiveShellApp.exec_lines '%autoreload 2'"
+alias bat="batcat"
 
 export gitpre='git@github.com:natibek'
 
@@ -26,7 +27,9 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 num_re='^[0-9]+$'
 
-alias local_gits='f() { local_gits.py -x coursework-natibek $@; unset -f f;}; f'
+function lg() {
+  ls -A | grep -i $@
+}
 
 function mkcd() {
    if [ $# -eq 1 ]; then
@@ -82,43 +85,12 @@ function virt() {
    fi
 }
 
-alias lg='f() {
-  ls -A | grep -i $@
-}; f'
-
 function serve() {
    port=8000
    if [ $# -eq 1 ] && [ $@ -gt 0 ]; then
       port=$@
    fi
    python3 -m http.server $port
-}
-
-function todom() {
-   # and get go
-   # go get github.com/alecthomas/devtodo2
-   # the main planner
-   cur=$PWD
-   cd ~/todo/main && devtodo2 $@
-   cd $cur
-}
-
-function todop() {
-   # and get go
-   # go get github.com/alecthomas/devtodo2
-   # the project planner
-   cur=$PWD
-   cd ~/todo/projects && devtodo2 $@
-   cd $cur
-}
-
-function todol() {
-   # and get go
-   # go get github.com/alecthomas/devtodo2
-   # the learning
-   cur=$PWD
-   cd ~/todo/learn && devtodo2 $@
-   cd $cur
 }
 
 function code-lines() {
@@ -137,17 +109,4 @@ function code-lines() {
    ls -R | awk '/:$/ {dir=substr($0, 1, length($0)-1); next} NF {print dir "/" $0}' | grep ${grep_pattern:0:-2} | xargs wc -l
 
 }
-function y() {
-   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-   yazi "$@" --cwd-file="$tmp"
-   if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-      builtin cd -- "$cwd"
-   fi
-   rm -f -- "$tmp" 
-}
 
-function psk () {
-   ps aux | fzf --header-lines=1 \
-  --preview='echo {} | awk "{print \$2}" | xargs -r -I{} ps -p {} -o pid,comm,%cpu,%mem,cmd -h' \
-  | awk '{print $2}' | xargs kill
-}
