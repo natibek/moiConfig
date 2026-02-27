@@ -26,7 +26,7 @@ apt_installs () {
         "ipython3"
     )
 
-    echo -e "\n\n${GREEN}Installing with apt: ${apt_packages_str[*]}${NC}"
+    echo -e "\n\n${GREEN}Installing with apt: ${apt_packages[*]}${NC}"
     sudo apt install ${apt_packages[@]}
 }
 
@@ -106,11 +106,11 @@ if [ -z "$*" ]; then
 else
     for arg in "$@"; do
         case "$arg" in
-            -snap)   snap_installs ;;&
-            -apt)    apt_installs  ;;&
-            -font)   download_font ;;&
-            -config) configs       ;;&
-            *) echo -e "${IRED}Unknown argument:${NC} $arg";;&
+            -snap)   snap_installs ;;
+            -apt)    apt_installs  ;;
+            -font)   download_font ;;
+            -config) configs       ;;
+            *) echo -e "${IRED}Unknown argument:${NC} $arg";;
         esac
     done
 
