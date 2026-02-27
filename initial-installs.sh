@@ -102,17 +102,17 @@ configs () {
 
 
 if [ -z "$*" ]; then
-    echo "Install all"
+    args=("-apt" "-snap" "-font" "-config")
 else
-    for arg in "$@"; do
-        case "$arg" in
-            -snap)   snap_installs ;;
-            -apt)    apt_installs  ;;
-            -font)   download_font ;;
-            -config) configs       ;;
-            *) echo -e "${IRED}Unknown argument:${NC} $arg";;
-        esac
-    done
-
+    args="$@"
 fi
 
+for arg in "${args[@]}"; do
+    case "$arg" in
+        -snap)   snap_installs ;;
+        -apt)    apt_installs  ;;
+        -font)   download_font ;;
+        -config) configs       ;;
+        *) echo -e "${IRED}Unknown argument:${NC} $arg";;
+    esac
+done
