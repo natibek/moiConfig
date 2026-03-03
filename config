@@ -62,7 +62,6 @@ snap_installs () {
         "astral-uv"
         "go"
         "pyright"
-        "rustup"
         "node"
     )
     echo -e "\n\n${GREEN}Installing with snap --classic: ${snap_classic_packages[*]}${NC}"
@@ -109,6 +108,9 @@ configs () {
     echo -e "\n\n${GREEN}Installing starship${NC}"
     curl -sS https://starship.rs/install.sh | sh
 
+    echo -e "\n\n${GREEN}Installing rust${NC}"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
     if ! git clone git@github.com:natibek/moiConfig.git ~/moiConfig; then
         git clone https://github.com/natibek/moiConfig.git ~/moiConfig
     fi
@@ -136,7 +138,7 @@ if [ -z "$*" ]; then
 fi
 
 case "$1" in
-    "-help") echo -e "\ninitial-installs.sh [-help][-all][-apt][-snap][-personal][-font][-configs][-config-desktop]
+    "-help") echo -e "\nconfig [-help][-all][-apt][-snap][-personal][-font][-configs][-config-desktop]
 
     -help:           Get help
     -all:            Run all config commands
@@ -161,6 +163,7 @@ for arg in "${args[@]}"; do
         -font)             download_font     ;;
         -configs)          configs           ;;
         -config-desktop)   config_desktop    ;;
+        -help) ;;
         *) echo -e "${IRED}Unknown argument:${NC} $arg";;
     esac
 done
