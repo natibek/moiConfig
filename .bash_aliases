@@ -8,6 +8,7 @@ alias py="ipython --InteractiveShellApp.extensions 'autoreload' --InteractiveShe
 alias bat="batcat"
 alias la="ls -a"
 alias ll="ls -l"
+alias kn="pkill keynav && keynav daemonize"
 
 export gitpre='git@github.com:natibek'
 

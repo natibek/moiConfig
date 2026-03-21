@@ -1,0 +1,27 @@
+ctrl+semicolon start,cut-right,cut-down,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left
+# ctrl+semicolon start,set 860 440 200 200
+Escape end
+Return warp,click 1,end
+
+shift+h cut-left
+shift+j cut-down
+shift+k cut-up
+shift+l cut-right
+
+h move-left,warp
+j move-down,warp
+k move-up,warp
+l move-right,warp
+
+alt+h move-left,move-left,warp
+alt+j move-down,move-down,warp
+alt+k move-up,move-up,warp
+alt+l move-right,move-right,warp
+
+ctrl+h move-left 0.50, warp
+ctrl+j move-down 0.50, warp
+ctrl+k move-up 0.50, warp
+ctrl+l move-right 0.50, warp
+
+
+q drag 1

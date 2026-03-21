@@ -24,6 +24,7 @@ apt_installs () {
         "ripgrep"
         "terminator"
         "ipython3"
+        "keynav"
     )
 
     echo -e "\n\n${GREEN}Installing with apt: ${apt_packages[*]}${NC}"
@@ -121,12 +122,14 @@ configs () {
         ln -sf ~/moiConfig/.bashrc ~/.bashrc
         ln -sf ~/moiConfig/.bash_aliases ~/.bash_aliases
         ln -sf ~/moiConfig/starship.toml ~/.config/starship.toml
+        ln -sf ~/moiConfig/.keynavrc ~/.keynavrc
     else
         echo -e "\n\n${GREEN}Downloading config files${NC}"
         curl -osS ~/.vimrc https://raw.githubusercontent.com/natibek/moiConfig/main/.vimrc
         curl -osS ~/.bashrc https://raw.githubusercontent.com/natibek/moiConfig/main/.bashrc
         curl -osS ~/.bash_aliases https://raw.githubusercontent.com/natibek/moiConfig/main/.bash_aliases
         curl -osS ~/.config/starship.toml https://raw.githubusercontent.com/natibek/moiConfig/main/starship.toml
+        curl -osS ~/.keynavrc https://raw.githubusercontent.com/natibek/moiConfig/main/.keynavrc
     fi
 
 }
