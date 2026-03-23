@@ -1,6 +1,7 @@
-ctrl+semicolon start,cut-right,cut-down,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left
-# ctrl+semicolon start,set 860 440 200 200
-Escape end
+ctrl+semicolon start,cursorzoom 30,30 #cut-right,cut-down,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left,cut-up,cut-left
+v cursorzoom 30,30
+
+Escape wrap, end
 Return warp,click 1,end
 
 shift+h cut-left
@@ -13,15 +14,22 @@ j move-down,warp
 k move-up,warp
 l move-right,warp
 
-alt+h move-left,move-left,warp
-alt+j move-down,move-down,warp
-alt+k move-up,move-up,warp
-alt+l move-right,move-right,warp
+alt+h move-left,move-left,move-left,warp
+alt+j move-down,move-down,move-down,warp
+alt+k move-up,move-up,move-up,warp
+alt+l move-right,move-right,move-right,warp
 
-ctrl+h move-left 0.50, warp
-ctrl+j move-down 0.50, warp
-ctrl+k move-up 0.50, warp
-ctrl+l move-right 0.50, warp
+ctrl+h move-left 0.50,warp
+ctrl+j move-down 0.50,warp
+ctrl+k move-up 0.50,warp
+ctrl+l move-right 0.50,warp
 
+# Scroll
+d warp,click 5
+u warp,click 4
+
+# zoom on browsers
+ctrl+d warp,click 5
+ctrl+u warp,click 4
 
 q drag 1
