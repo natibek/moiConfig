@@ -24,6 +24,7 @@ apt_installs () {
         "ripgrep"
         "ipython3"
         "keynav"
+        "clang-format"
     )
 
     echo -e "\n\n${GREEN}Installing with apt: ${apt_packages[*]}${NC}"
@@ -45,6 +46,8 @@ snap_installs () {
         "lxd"
         "firefox"
         "htop"
+        "shell-check"
+        "thunderbird"
     )
 
     echo -e "\n\n${GREEN}Installing with snap: ${snap_packages[*]}${NC}"
