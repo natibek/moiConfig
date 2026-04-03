@@ -22,7 +22,6 @@ apt_installs () {
         "exuberant-ctags"
         "bat"
         "ripgrep"
-        "terminator"
         "ipython3"
         "keynav"
     )
@@ -45,7 +44,7 @@ personal_installs () {
 
 snap_installs () {
     snap_packages=(
-        "docker"
+        # "docker"
         "lxd"
         "firefox"
         "htop"
@@ -135,31 +134,33 @@ configs () {
 }
 
 
-if [ -z "$*" ]; then
-    echo -e "${IRED}No Arguments Found${NC}"
-    exit 1
-fi
+if ! (return 2> /dev/null); then
+    if [ -z "$*" ]; then
+        firstArg="-help"
+    else
+        firstArg="$1"
+    fi
 
-case "$1" in
-    "-help") echo -e "\nconfig [-help][-all][-apt][-snap][-personal][-font][-configs][-config-desktop]
+    case "$firstArg" in
+        "-help") echo -e "\nconfig [-help][-all][-apt][-snap][-personal][-font][-configs][-config-desktop]
 
-    -help:           Get help
-    -all:            Run all config commands
-    -apt:            Install required apt packages
-    -snap:           Install required snap packages
-    -personal:       Install personal packages
-    -font:           Download NotoMonoNerdFont
-    -configs:        Miscellaneous dependencies
-    -config-desktop: Config gnome terminal and desktop
-"
-    exit 0
-    ;;
-    "-all") args=("-apt" "-snap" "-font" "-configs" "-config-desktop");;
-    *) args="$@";;
-esac
+        -help:           Get help
+        -all:            Run all config commands (except -personal)
+        -apt:            Install required apt packages
+        -snap:           Install required snap packages
+        -personal:       Install personal packages
+        -font:           Download NotoMonoNerdFont
+        -configs:        Miscellaneous dependencies
+        -config-desktop: Config gnome terminal and desktop
+        "
+        exit 0
+        ;;
+        "-all") args=("-apt" "-snap" "-font" "-configs" "-config-desktop");;
+        *) args="$@";;
+    esac
 
-for arg in "${args[@]}"; do
-    case "$arg" in
+    for arg in "${args[@]}"; do
+        case "$arg" in
         -snap)             snap_installs     ;;
         -personal)         personal_installs ;;
         -apt)              apt_installs      ;;
@@ -168,5 +169,7 @@ for arg in "${args[@]}"; do
         -config-desktop)   config_desktop    ;;
         -help) ;;
         *) echo -e "${IRED}Unknown argument:${NC} $arg";;
-    esac
-done
+        esac
+    done
+
+fi
