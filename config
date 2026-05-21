@@ -36,10 +36,7 @@ personal_installs () {
         "steam"
         "obs-studio"
     )
-    # sudo snap install "${snap_packages[@]}"
-    for app in "${snap_packages[@]}"; do
-        sudo snap install "$app"
-    done
+    sudo snap install "${snap_packages[@]}"
 }
 
 snap_installs () {
@@ -51,10 +48,7 @@ snap_installs () {
     )
 
     echo -e "\n\n${GREEN}Installing with snap: ${snap_packages[*]}${NC}"
-    # sudo snap install "${snap_packages[@]}"
-    for app in "${snap_packages[@]}"; do
-        sudo snap install "$app"
-    done
+    sudo snap install "${snap_packages[@]}"
 
     snap_classic_packages=(
         "snapcraft"
@@ -65,9 +59,7 @@ snap_installs () {
         "node"
     )
     echo -e "\n\n${GREEN}Installing with snap --classic: ${snap_classic_packages[*]}${NC}"
-    for app in "${snap_classic_packages[@]}"; do
-        sudo snap install "$app" --classic
-    done
+    sudo snap install "${snap_classic_packages[@]}"
 }
 
 # get nerd font https://dev.to/pulkitsingh/install-nerd-fonts-or-any-fonts-easily-in-linux-2e3l
