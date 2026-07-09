@@ -100,12 +100,13 @@ if ! shopt -oq posix; then
 fi
 
 p3_9='~/.local/share/uv/python/cpython-3.9.21-linux-x86_64-gnu/bin/python3.9/bin'
-go_bin='~/go/bin'
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
 cargo_bin='~/.cargo/bin'
 # export XDG_CONFIG_HOME="home/$USER/.config/"
 # export XDG_DATA_HOME="home/$USER/.local/share"
 
-export PATH="$PATH:~/myTools:~/.local/bin:$p3_9:$go_bin:$cargo_bin"
+export PATH="$PATH:~/myTools:~/.local/bin:$p3_9:$GOBIN:$cargo_bin"
 . "$HOME/.cargo/env"
 export EDITOR='vim'
 
@@ -140,3 +141,6 @@ fi
 # <<< conda initialize <<<
 }
 
+
+# opencode
+export PATH=/home/nati.bekele@canonical.com/.opencode/bin:$PATH

@@ -20,11 +20,14 @@ apt_installs () {
         "pavucontrol"
         "solaar"
         "exuberant-ctags"
+        "universal-ctags"
+        "xclip"
         "bat"
         "ripgrep"
         "ipython3"
         "keynav"
         "clang-format"
+        "apt-file"
     )
 
     echo -e "\n\n${GREEN}Installing with apt: ${apt_packages[*]}${NC}"

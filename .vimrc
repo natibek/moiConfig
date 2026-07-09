@@ -83,7 +83,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'Konfekt/FastFold'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/tagbar'
 Plug 'fatih/vim-go'
+" Plug 'govim/govim'
 " https://github.com/lambdalisue/vim-fern/wiki/Mappings
 Plug 'lambdalisue/vim-fern'
 Plug 'airblade/vim-gitgutter'
@@ -99,6 +101,12 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm(): "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <silent><expr> <c-@> coc#refresh()
+" let $GOPATH = $HOME . '/go'
+" let $GOBIN = $HOME . '/go/bin'
+" let $PATH = $HOME . '/go/bin:' . $PATH
+"
+" let g:coc_go_binary = '/snap/bin/go'
+" let g:coc_gopath = '~/go/bin'
 
 " install coc-go
 
@@ -129,9 +137,38 @@ nmap <Leader>p <Plug>(GitGutterPreviewHunk)
 
 " fzf config
 nnoremap <leader>rG :RG <C-R><C-W><CR>
+nnoremap <leader>rT :Tags <C-R><C-W><CR>
 nnoremap <leader>rg :RG<CR>
 vnoremap <leader>rg y:RG <C-R>"<CR>
 
+nmap <leader>T :TagbarToggle<CR>
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set history=500
