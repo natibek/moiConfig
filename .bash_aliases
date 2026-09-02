@@ -12,7 +12,7 @@ alias kn="pkill keynav && keynav daemonize"
 
 export gitpre='git@github.com:natibek'
 
-alias gs='git status'
+alias gs='git status --short'
 alias glog='git log --oneline --graph'
 
 # emacs aliases
